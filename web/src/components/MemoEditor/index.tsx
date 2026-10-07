@@ -35,6 +35,10 @@ import type { EditorController } from "./types/editorController";
 // A host that presents the editor full-screen supplies `onFocusModeExit`; its
 // presence is what makes an instance hosted, so focus mode starts on and stays on.
 const MemoEditor = (props: MemoEditorProps) => (
+    // CampusLost 失物招领下拉状态
+  const [itemStatus, setItemStatus] = useState("");
+  const [location, setLocation] = useState("");
+
   <EditorProvider initialFocusMode={Boolean(props.onFocusModeExit)}>
     <MemoEditorImpl {...props} />
   </EditorProvider>
@@ -379,7 +383,32 @@ const MemoEditorImpl: React.FC<MemoEditorProps> = ({
           <div className="flex h-6 w-full items-center">
             <TimestampPopover />
           </div>
-        )}
+        )}{/* CampusLost 校园失物招领选择器 Start */}
+<div className="flex flex-row gap-4 mb-3">
+  <select
+    className="px-2 py-1 border rounded bg-white dark:bg-zinc-800"
+    value={itemStatus}
+    onChange={(e) => setItemStatus(e.target.value)}
+  >
+    <option value="">选择物品状态</option>
+    <option value="#捡到">捡到物品</option>
+    <option value="#丢失">丢失物品</option>
+  </select>
+  <select
+    className="px-2 py-1 border rounded bg-white dark:bg-zinc-800"
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+  >
+    <option value="">选择地点</option>
+    <option value="#图书馆">图书馆</option>
+    <option value="#食堂">食堂</option>
+    <option value="#教学楼">教学楼</option>
+    <option value="#操场">操场</option>
+    <option value="#宿舍区">宿舍区</option>
+  </select>
+</div>
+{/* CampusLost 校园失物招领选择器 End */}
+
 
         {/* Editor content grows to fill available space in focus mode */}
         <EditorContent ref={editorRef} placeholder={placeholder} onSubmit={handleSave} onFiles={handleEditorFiles} />
